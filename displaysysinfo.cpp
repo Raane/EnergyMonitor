@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QPalette>
 #include <QLabel>
+#include <QTextStream>
 
 DisplaySysInfo::DisplaySysInfo(QWidget *parent) :
     QWidget(parent),
@@ -58,7 +59,7 @@ DisplaySysInfo::~DisplaySysInfo()
 
 void DisplaySysInfo::displaySensorPlot()
 {
-    ui->qwtPlotSensor->setAxisScale(QwtPlot::yLeft, 0, 5);
+    ui->qwtPlotSensor->setAxisScale(QwtPlot::yLeft, 0, 6);
     ui->qwtPlotSensor->setAxisScale(QwtPlot::xBottom, 0, 100);
     ui->qwtPlotSensor->setAxisTitle(QwtPlot::xBottom, "sec");
     ui->qwtPlotSensor->setAxisTitle(QwtPlot::yLeft, "Watt");
@@ -236,6 +237,35 @@ void DisplaySysInfo::update()
         drawKFCSensorCurve();
         drawG3DSensorCurve();
     }
+    
+    QString result = QString::number(getNode->armuV).append(",")
+      .append(QString::number(getNode->armuA)).append(",")
+      .append(QString::number(getNode->armuW)).append(",")
+      .append(QString::number(getNode->kfcuV)).append(",")
+      .append(QString::number(getNode->kfcuA)).append(",")
+      .append(QString::number(getNode->kfcuW)).append(",")
+      .append(QString::number(getNode->g3duV)).append(",")
+      .append(QString::number(getNode->g3duA)).append(",")
+      .append(QString::number(getNode->g3duW)).append(",")
+      .append(QString::number(getNode->memuV)).append(",")
+      .append(QString::number(getNode->memuA)).append(",")
+      .append(QString::number(getNode->memuW));
+    qDebug() << qPrintable(result);
+    /*a15Volt.sprintf("%.3f", getNode->armuV);
+    a15Ampere.sprintf("%.3f", getNode->armuA);
+    a15Watt.sprintf("%.3f", getNode->armuW);
+
+    a7Volt.sprintf("%.3f", getNode->kfcuV);
+    a7Ampere.sprintf("%.3f", getNode->kfcuA);
+    a7Watt.sprintf("%.3f", getNode->kfcuW);
+
+    gpuVolt.sprintf("%.3f", getNode->g3duV);
+    gpuAmpere.sprintf("%.3f", getNode->g3duA);
+    gpuWatt.sprintf("%.3f", getNode->g3duW);
+
+    memVolt.sprintf("%.3f", getNode->memuV);
+    memAmpere.sprintf("%.3f", getNode->memuA);
+    memWatt.sprintf("%.3f", getNode->memuW);*/
 //    getNode->GetCPUUsage();
 //    ui->CPU0UsageEdit->setText(QString::number(getNode->usage[0]));
 //    ui->CPU1UsageEdit->setText(QString::number(getNode->usage[1]));
